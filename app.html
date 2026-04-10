@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Generator | Sydney Dunn</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Open Sans', Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #212529;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #212529;
+            padding: 20px 40px;
+        }
+
+        .title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("assets/img/joke.jpg");
+            background-size: cover;
+            background-position: center 20%;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 950px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background-color: white;
+            border: 8px solid black;
+            padding: 35px;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 34px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #cccccc;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .joke-box {
+            background-color: #f3f3f3;
+            border-left: 6px solid #212529;
+            padding: 25px;
+            margin: 25px 0;
+            min-height: 170px;
+        }
+
+        .joke-box h3 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .setup {
+            font-size: 25px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .punchline {
+            font-size: 23px;
+            line-height: 1.6;
+            color: #343a40;
+            font-weight: 700;
+            display: none;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        button {
+            background-color: #212529;
+            color: white;
+            border: none;
+            padding: 14px 22px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #343a40;
+        }
+
+        .secondary-button {
+            background-color: #6c757d;
+        }
+
+        .secondary-button:hover {
+            background-color: #5a6268;
+        }
+
+        .favorite-button {
+            background-color: #b8860b;
+        }
+
+        .favorite-button:hover {
+            background-color: #9c7309;
+        }
+
+        .favorites-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .favorites-list li {
+            background-color: #f8f8f8;
+            border: 2px solid #dddddd;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .favorite-category {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 700;
+            background-color: #212529;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .favorite-setup {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .favorite-punchline {
+            font-size: 18px;
+            font-weight: 700;
+            color: #343a40;
+            margin-bottom: 12px;
+        }
+
+        .empty-message {
+            color: #666666;
+            font-style: italic;
+            font-size: 18px;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            color: #555;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .nav-links a {
+                margin: 0 10px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .setup,
+            .punchline {
+                font-size: 20px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="title">Sydney Dunn</div>
+
+        <div class="nav-links">
+            <a href="scratch.html">Scratch Page</a>
+            <a href="index.html">Home</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div>
+            <h1>Joke Generator</h1>
+            <p>Pick a category, generate a joke, reveal the punchline, and save your favorites.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Generate a Joke</h2>
+
+            <label for="category">Choose a category</label>
+            <select id="category">
+                <option value="all">All Categories</option>
+                <option value="school">School</option>
+                <option value="sports">Sports</option>
+                <option value="animals">Animals</option>
+                <option value="food">Food</option>
+                <option value="random">Random</option>
+            </select>
+
+            <div class="joke-box">
+                <h3 id="jokeCategory">Category: --</h3>
+                <div class="setup" id="setupText">Click “Generate Joke” to get started.</div>
+                <div class="punchline" id="punchlineText">Punchline will appear here.</div>
+            </div>
+
+            <div class="button-row">
+                <button onclick="generateJoke()">Generate Joke</button>
+                <button class="secondary-button" onclick="revealPunchline()">Reveal Punchline</button>
+                <button class="favorite-button" onclick="saveFavorite()">★ Save Favorite</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>My Favorite Jokes</h2>
+            <ul id="favoritesList" class="favorites-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        const jokes = [
+            {
+                category: "school",
+                setup: "Why did the student eat his homework?",
+                punchline: "Because the teacher said it was a piece of cake."
+            },
+            {
+                category: "school",
+                setup: "Why was the math book sad?",
+                punchline: "Because it had too many problems."
+            },
+            {
+                category: "school",
+                setup: "Why did the music teacher need a ladder?",
+                punchline: "To reach the high notes."
+            },
+            {
+                category: "sports",
+                setup: "Why do soccer players do well in school?",
+                punchline: "Because they know how to use their heads."
+            },
+            {
+                category: "sports",
+                setup: "Why was the basketball court wet?",
+                punchline: "Because the players dribbled all over it."
+            },
+            {
+                category: "sports",
+                setup: "Why couldn’t the runner finish the race?",
+                punchline: "Because he ran out of time."
+            },
+            {
+                category: "animals",
+                setup: "What do you call a fish wearing a bowtie?",
+                punchline: "Sofishticated."
+            },
+            {
+                category: "animals",
+                setup: "Why don’t oysters donate to charity?",
+                punchline: "Because they’re shellfish."
+            },
+            {
+                category: "animals",
+                setup: "What do you call an alligator in a vest?",
+                punchline: "An investigator."
+            },
+            {
+                category: "food",
+                setup: "What do you call fake spaghetti?",
+                punchline: "An impasta."
+            },
+            {
+                category: "food",
+                setup: "Why did the tomato turn red?",
+                punchline: "Because it saw the salad dressing."
+            },
+            {
+                category: "food",
+                setup: "What did the baby corn say to the mama corn?",
+                punchline: "Where’s popcorn?"
+            },
+            {
+                category: "random",
+                setup: "Why don’t skeletons fight each other?",
+                punchline: "They don’t have the guts."
+            },
+            {
+                category: "random",
+                setup: "What did one wall say to the other wall?",
+                punchline: "I’ll meet you at the corner."
+            },
+            {
+                category: "random",
+                setup: "Why can’t your nose be 12 inches long?",
+                punchline: "Because then it would be a foot."
+            }
+        ];
+
+        let currentJoke = null;
+
+        function formatCategory(category) {
+            return category.charAt(0).toUpperCase() + category.slice(1);
+        }
+
+        function generateJoke() {
+            const selectedCategory = document.getElementById("category").value;
+
+            let filteredJokes;
+            if (selectedCategory === "all") {
+                filteredJokes = jokes;
+            } else {
+                filteredJokes = jokes.filter(joke => joke.category === selectedCategory);
+            }
+
+            const randomIndex = Math.floor(Math.random() * filteredJokes.length);
+            currentJoke = filteredJokes[randomIndex];
+
+            document.getElementById("jokeCategory").textContent = "Category: " + formatCategory(currentJoke.category);
+            document.getElementById("setupText").textContent = currentJoke.setup;
+
+            const punchline = document.getElementById("punchlineText");
+            punchline.textContent = currentJoke.punchline;
+            punchline.style.display = "none";
+        }
+
+        function revealPunchline() {
+            if (!currentJoke) {
+                alert("Generate a joke first.");
+                return;
+            }
+
+            document.getElementById("punchlineText").style.display = "block";
+        }
+
+        function saveFavorite() {
+            if (!currentJoke) {
+                alert("Generate a joke first.");
+                return;
+            }
+
+            let favorites = JSON.parse(localStorage.getItem("favoriteJokes")) || [];
+
+            const alreadySaved = favorites.some(joke =>
+                joke.setup === currentJoke.setup && joke.punchline === currentJoke.punchline
+            );
+
+            if (!alreadySaved) {
+                favorites.push(currentJoke);
+                localStorage.setItem("favoriteJokes", JSON.stringify(favorites));
+            }
+
+            renderFavorites();
+        }
+
+        function removeFavorite(index) {
+            let favorites = JSON.parse(localStorage.getItem("favoriteJokes")) || [];
+            favorites.splice(index, 1);
+            localStorage.setItem("favoriteJokes", JSON.stringify(favorites));
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const favorites = JSON.parse(localStorage.getItem("favoriteJokes")) || [];
+            const favoritesList = document.getElementById("favoritesList");
+
+            favoritesList.innerHTML = "";
+
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<li class="empty-message">No favorite jokes saved yet.</li>';
+                return;
+            }
+
+            favorites.forEach((joke, index) => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `
+                    <div class="favorite-category">${formatCategory(joke.category)}</div>
+                    <div class="favorite-setup">${joke.setup}</div>
+                    <div class="favorite-punchline">${joke.punchline}</div>
+                    <button onclick="removeFavorite(${index})">Remove</button>
+                `;
+                favoritesList.appendChild(listItem);
+            });
+        }
+
+        renderFavorites();
+    </script>
+</body>
+</html>
